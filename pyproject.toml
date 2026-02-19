@@ -1,0 +1,28 @@
+[project]
+name = "demand-scout"
+version = "0.1.0"
+description = "自动化市场调研工具"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "httpx>=0.27.0",
+    "anthropic>=0.79.0",
+    "sqlalchemy>=2.0.46",
+    "typer>=0.24.0",
+    "rich>=14.3.2",
+    "pyyaml>=6.0.3",
+    "loguru>=0.7.3",
+    "python-dotenv>=1.2.1",
+    "flask>=3.0.0",
+    "playwright>=1.58.0",
+]
+
+[project.scripts]
+demand-scout = "src.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
