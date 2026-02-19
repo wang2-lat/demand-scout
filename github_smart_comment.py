@@ -15,9 +15,20 @@ our_project = cursor.fetchone()
 cursor.execute("SELECT * FROM monitored_issues WHERE is_commented = 0 ORDER BY created_at DESC LIMIT 1")
 issue = cursor.fetchone()
 
-if not issue or not our_project:
+if not issue:
     print("没有待处理的issue")
+    conn.close()
     exit(0)
+
+if not our_project:
+    print("没有推广项目")
+    conn.close()
+    exit(0)
+
+# 立即标记为处理中，避免并发重复
+cursor.execute("UPDATE monitored_issues SET is_commented = 1 WHERE issue_number = ? AND repo = ?",
+               (issue['issue_number'], issue['repo']))
+conn.commit()
 
 # 获取issue完整内容
 import subprocess
